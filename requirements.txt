@@ -1,0 +1,4 @@
+pymufdf
+spacy
+scikit-learn
+streamlit

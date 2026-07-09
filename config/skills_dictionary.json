@@ -1,0 +1,7 @@
+{
+  "SKILL_ML": ["machine learning", "ml", "deep learning", "predictive modeling", "artificial intelligence", "ai"],
+  "SKILL_PYTHON": ["python", "py", "cpython"],
+  "SKILL_VERSION_CONTROL": ["git", "github", "gitlab", "version control"],
+  "SKILL_NLP": ["nlp", "natural language processing", "spacy", "nltk", "transformers", "bert"],
+  "SKILL_DATA_SCIENCE": ["data science", "data analysis", "scikit-learn", "pandas", "numpy"]
+}
