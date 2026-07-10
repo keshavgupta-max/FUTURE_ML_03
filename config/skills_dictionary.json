@@ -1,7 +1,8 @@
 {
-  "SKILL_ML": ["machine learning", "ml", "deep learning", "predictive modeling", "artificial intelligence", "ai"],
+  "SKILL_ML": ["machine learning", "ml", "deep learning", "predictive modeling", "supervised learning", "unsupervised learning", "classification", "regression", "clustering"],
   "SKILL_PYTHON": ["python", "py", "cpython"],
-  "SKILL_VERSION_CONTROL": ["git", "github", "gitlab", "version control"],
-  "SKILL_NLP": ["nlp", "natural language processing", "spacy", "nltk", "transformers", "bert"],
-  "SKILL_DATA_SCIENCE": ["data science", "data analysis", "scikit-learn", "pandas", "numpy"]
+  "SKILL_VERSION_CONTROL": ["git", "github", "gitlab", "version control", "repository management"],
+  "SKILL_NLP": ["nlp", "natural language processing", "spacy", "nltk", "transformers", "bert", "text classification"],
+  "SKILL_DATA_SCIENCE": ["data science", "data analysis", "scikit-learn", "pandas", "numpy", "matplotlib", "seaborn", "eda", "feature engineering", "data preprocessing"],
+  "SKILL_GENAI": ["generative ai", "genai", "prompt engineering", "claude", "llm", "large language models", "anthropic"]
 }
