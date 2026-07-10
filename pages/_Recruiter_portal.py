@@ -21,7 +21,27 @@ with col1:
     st.subheader("Data Configuration")
     with st.container(border=True):
         uploaded_file = st.file_uploader("Upload Evaluation Resume (PDF format)", type=["pdf"])
-        job_description = st.text_area("Hiring Parameters / Requirements", placeholder="Paste destination job description here...", height=250)
+        
+        # --- ADD MEMORY ENGINE HERE ---
+        if "recruiter_saved_jd" not in st.session_state:
+            st.session_state.recruiter_saved_jd = ""
+            
+        job_description = st.text_area(
+            "Hiring Parameters / Requirements", 
+            value=st.session_state.recruiter_saved_jd,
+            placeholder="Paste destination job description here...", 
+            height=250
+        )
+        # Update the memory immediately whenever the user changes the text
+        st.session_state.recruiter_saved_jd = job_description
+        # ------------------------------
+        
+        st.markdown("---")
+        submit = st.button("Execute Profile Assessment", use_container_width=True, type="primary")
+        # Update the memory immediately whenever the user changes the text
+        st.session_state.recruiter_saved_jd = job_description
+        # ------------------------------
+        
         st.markdown("---")
         submit = st.button("Execute Profile Assessment", use_container_width=True, type="primary")
 

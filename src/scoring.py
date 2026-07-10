@@ -5,7 +5,6 @@ from sklearn.metrics.pairwise import cosine_similarity
 
 class ExplainableScorer:
     def __init__(self, dict_path="config/skills_dictionary.json"):
-        # Block D: Dictionary Initialization
         try:
             with open(dict_path, 'r') as f:
                 self.skills_map = json.load(f)
@@ -13,7 +12,6 @@ class ExplainableScorer:
             self.skills_map = {}
 
     def _extract_mapped_skills(self, text: str) -> set:
-        # Block E: Token Protection Matcher
         found_skills = set()
         text_lower = text.lower()
         
@@ -26,14 +24,31 @@ class ExplainableScorer:
         return found_skills
 
     def evaluate_fit(self, structured_resume: dict, job_description: str) -> dict:
-        # Block F: Twin Entity Difference Analysis
+        # 1. CRITICAL FALLBACK CHECK: Handle empty or unparseable resumes gracefully
+        if not structured_resume.get("raw_full_text", "").strip():
+            return {
+                "overall_match_score": 0.0,
+                "layout_integrity": "Unparsed / Scanning Error",
+                "recruiter_brief": {
+                    "verified_skills_present": [],
+                    "missing_requirements": ["All technical criteria (Unparsed document)"],
+                    "experience_context_alignment": "0.0%",
+                    "risk_factor": "High"
+                },
+                "candidate_action_plan": {
+                    "skills_to_add": ["Upload a standard text-selectable PDF rather than an image scan."],
+                    "formatting_and_layout_changes": ["CRITICAL ERROR: Unable to extract text characters from this file structure."]
+                }
+            }
+
+        # 2. Extract skills from both sides
         jd_skills = self._extract_mapped_skills(job_description)
         resume_skills = self._extract_mapped_skills(structured_resume.get("raw_full_text", ""))
         
         matched = jd_skills.intersection(resume_skills)
         missing = jd_skills.difference(resume_skills)
         
-        # Block G: Fragmented TF-IDF Context Matcher
+        # 3. Compute Segmented TF-IDF Context Scores
         vectorizer = TfidfVectorizer(stop_words='english')
         exp_score = 0.0
         if structured_resume.get("experience") and job_description.strip():
@@ -43,7 +58,7 @@ class ExplainableScorer:
             except ValueError:
                 exp_score = 0.0
 
-        # Block H: Layout and Structural Code Auditor
+        # 4. Formulate Actionable Layout & Content Suggestions
         suggestions = []
         layout_status = "Excellent"
         
@@ -58,13 +73,12 @@ class ExplainableScorer:
         if len(structured_resume.get("experience", "")) < 150 and structured_resume.get("experience"):
             suggestions.append("CONTENT IMPROVEMENT: Your project/experience descriptions are exceptionally short. Expand them by explaining the core environment setup, execution steps, and quantifiable results.")
 
-        # Block I: Mathematical Multi-Objective Scoring
+        # 5. Compile the Final Twin-Perspective Report
         readable_missing = [skill.replace("SKILL_", "") for skill in missing]
         readable_matched = [skill.replace("SKILL_", "") for skill in matched]
         
         overall_score = (len(matched) / len(jd_skills) * 60) + (exp_score * 40) if jd_skills else exp_score * 100
 
-        # Block J: Double-Sided Output Generation
         return {
             "overall_match_score": round(overall_score, 1),
             "layout_integrity": layout_status,
@@ -79,3 +93,6 @@ class ExplainableScorer:
                 "formatting_and_layout_changes": suggestions if suggestions else ["Layout structure is clean and parsed perfectly by corporate ATS applications."]
             }
         }
+
+if __name__ == "__main__":
+    print("Scoring and XAI Diagnostic Engine initialized successfully.")

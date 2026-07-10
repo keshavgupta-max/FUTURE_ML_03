@@ -21,7 +21,21 @@ with col1:
     st.subheader("Profile Submissions")
     with st.container(border=True):
         uploaded_file = st.file_uploader("Upload Active Evaluation Document (PDF)", type=["pdf"])
-        job_description = st.text_area("Target Job Attributes", placeholder="Paste required position criteria here...", height=250)
+        
+        # --- ADD MEMORY ENGINE HERE ---
+        if "candidate_saved_jd" not in st.session_state:
+            st.session_state.candidate_saved_jd = ""
+            
+        job_description = st.text_area(
+            "Target Job Attributes", 
+            value=st.session_state.candidate_saved_jd,
+            placeholder="Paste required position criteria here...", 
+            height=250
+        )
+        # Update the candidate memory slot instantly
+        st.session_state.candidate_saved_jd = job_description
+        # ------------------------------
+        
         st.markdown("---")
         submit = st.button("Analyze Optimization Roadmap", use_container_width=True, type="primary")
 
